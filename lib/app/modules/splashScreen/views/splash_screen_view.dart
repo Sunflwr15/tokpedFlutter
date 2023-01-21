@@ -82,7 +82,10 @@ class SplashScreenView extends GetView<SplashScreenController> {
                     "Join Now",
                     style: TextStyle(color: bgLogin2),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed("/login-screen");
+                    print("GO");
+                  },
                 ),
               ),
               Container(
