@@ -17,25 +17,33 @@ class LoginScreenView extends GetView<LoginScreenController> {
           padding: EdgeInsets.fromLTRB(20, 50, 20, 50),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 13.0),
-                child: Text(
-                  "Hi, Welcome Back!👋",
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 35.0),
-                child: Text(
-                  "Hello again, you've been missed",
-                  style: TextStyle(color: Colors.black45),
-                ),
-              ),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 13.0),
+                        child: Text(
+                          "Hi, Welcome Back!👋",
+                          style: TextStyle(
+                              fontSize: 28, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 35.0),
+                        child: Text(
+                          "Hello again, you've been missed",
+                          style: TextStyle(color: Colors.black45),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       InputText(context, "Email Address", "Enter your email",
                           controller.ChangeEye(), Icon(null), false),
@@ -48,88 +56,112 @@ class LoginScreenView extends GetView<LoginScreenController> {
                               ? Icon(Icons.visibility_outlined)
                               : Icon(Icons.visibility_off_outlined),
                           controller.showPass.value),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 35.0),
+                        child: InkWell(
+                          onTap: () {
+                            Get.toNamed("/forgot-password");
+                          },
+                          child: Text(
+                            "Forgot Password",
+                            style: TextStyle(color: Colors.black45),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 35.0),
-                    child: Text(
-                      "Forgot Password",
-                      style: TextStyle(color: Colors.black45),
-                    ),
-                  ),
-                  Container(
-                    width: lebar,
-                    height: tinggi * 0.07,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: Colors.white,
-                    ),
-                    child: ElevatedButton(
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: bgLogin2),
-                      child: Text(
-                        "Login",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () {
-                        Get.toNamed("/home");
-                        print("GO");
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 25.0),
-                    child: Center(child: Text("Or Login With")),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Column(
                     children: [
                       Container(
-                        width: lebar * 0.4,
+                        width: lebar,
                         height: tinggi * 0.07,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.white,
-                            border:
-                                Border.all(width: 2, color: Colors.black45)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Image.asset(
-                              "assets/image/Facebook.png",
-                            ),
-                            Text(
-                              "Facebook",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ],
+                          borderRadius: BorderRadius.circular(25),
+                          color: Colors.white,
+                        ),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: bgLogin2),
+                          child: Text(
+                            "Login",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () {
+                            Get.toNamed("/home");
+                            print("GO");
+                          },
                         ),
                       ),
-                      Container(
-                        width: lebar * 0.4,
-                        height: tinggi * 0.07,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.white,
-                            border:
-                                Border.all(width: 2, color: Colors.black45)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Image.asset(
-                              "assets/image/Google.png",
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        child: Center(child: Text("Or Login With")),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: lebar * 0.4,
+                            height: tinggi * 0.07,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.white,
+                                border: Border.all(
+                                    width: 2, color: Colors.black45)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Image.asset(
+                                  "assets/image/Facebook.png",
+                                ),
+                                Text(
+                                  "Facebook",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ],
                             ),
-                            Text(
-                              "Google",
-                              style: TextStyle(color: Colors.black),
+                          ),
+                          Container(
+                            width: lebar * 0.4,
+                            height: tinggi * 0.07,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.white,
+                                border: Border.all(
+                                    width: 2, color: Colors.black45)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Image.asset(
+                                  "assets/image/Google.png",
+                                ),
+                                Text(
+                                  "Google",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ],
-                  )
+                  ),
                 ],
-              )
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 4.0),
+                  child: Text("Don’t have an account?"),
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed("/register-screen");
+                  },
+                  child: Text(
+                    "Sign Up",
+                    style: TextStyle(color: bgLogin2),
+                  ),
+                )
+              ])
             ],
           ),
         )));
@@ -144,13 +176,13 @@ Widget InputText(BuildContext context, String label, String hint,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Padding(
-          //     padding: const EdgeInsets.only(bottom: 10.0),
-          //     child: Text(
-          //       label,
-          //       style: TextStyle(fontSize: 17),
-          //     ),
-          //   ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: Text(
+              label,
+              style: TextStyle(fontSize: 17),
+            ),
+          ),
           TextFormField(
             // controller: controller,
             obscureText: bool,
