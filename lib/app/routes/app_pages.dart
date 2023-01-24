@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/DetailScreen/bindings/detail_screen_binding.dart';
+import '../modules/DetailScreen/views/detail_screen_view.dart';
 import '../modules/forgotPassword/bindings/forgot_password_binding.dart';
 import '../modules/forgotPassword/views/forgot_password_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -50,6 +52,11 @@ class AppPages {
       name: _Paths.VERIFICATION,
       page: () => const VerificationView(),
       binding: VerificationBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_SCREEN,
+      page: () => const DetailScreenView(),
+      binding: DetailScreenBinding(),
     ),
   ];
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 Color bgLogin = Color(0xFF38B4BD);
 Color bgLogin2 = Color(0xFF0E9181);
 Color bgNav = Color(0xFF03A759);
+Color bgIjo = Color(0x1A03A759);
 Color bgJam = Color(0xFFD6001C);
 Color bgHarga = Color.fromARGB(34, 214, 0, 29);
 Color bgJudul = Color(0xFF1B1B1B);

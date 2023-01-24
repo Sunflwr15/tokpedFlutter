@@ -10,6 +10,7 @@ abstract class Routes {
   static const REGISTER_SCREEN = _Paths.REGISTER_SCREEN;
   static const FORGOT_PASSWORD = _Paths.FORGOT_PASSWORD;
   static const VERIFICATION = _Paths.VERIFICATION;
+  static const DETAIL_SCREEN = _Paths.DETAIL_SCREEN;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const REGISTER_SCREEN = '/register-screen';
   static const FORGOT_PASSWORD = '/forgot-password';
   static const VERIFICATION = '/verification';
+  static const DETAIL_SCREEN = '/detail-screen';
 }
