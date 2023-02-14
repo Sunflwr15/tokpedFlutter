@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tokopedia/app/controllers/auth_controller.dart';
 import 'package:tokopedia/app/modules/splashScreen/config/warna.dart';
 
 import '../controllers/home_controller.dart';
@@ -12,6 +13,7 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     double tinggi = MediaQuery.of(context).size.height;
     double lebar = MediaQuery.of(context).size.width;
+    final logController = Get.put(AuthController());
     return Scaffold(
         body: SingleChildScrollView(
       scrollDirection: Axis.vertical,
@@ -54,9 +56,12 @@ class HomeView extends GetView<HomeController> {
                     Image.asset(
                       "assets/image/Group 19.png",
                     ),
-                    Image.asset(
-                      "assets/image/menu 1.png",
-                    ),
+                    InkWell(
+                      onTap: () => logController.logOut(),
+                      child: Image.asset(
+                        "assets/image/menu 1.png",
+                      ),
+                    )
                   ],
                 ),
               )

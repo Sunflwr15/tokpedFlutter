@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tokopedia/app/modules/splashScreen/config/warna.dart';
 
+import '../../../controllers/auth_controller.dart';
 import '../controllers/login_screen_controller.dart';
 
 class LoginScreenView extends GetView<LoginScreenController> {
@@ -12,6 +13,7 @@ class LoginScreenView extends GetView<LoginScreenController> {
     double tinggi = MediaQuery.of(context).size.height;
     double lebar = MediaQuery.of(context).size.width;
     final controller = Get.put(LoginScreenController());
+    final authController = Get.put(AuthController());
     return Obx(() => Scaffold(
             body: Container(
           padding: EdgeInsets.fromLTRB(20, 50, 20, 50),
@@ -45,13 +47,20 @@ class LoginScreenView extends GetView<LoginScreenController> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      InputText(context, "Email Address", "Enter your email",
-                          controller.ChangeEye(), Icon(null), false),
+                      InputText(
+                          context,
+                          "Email Address",
+                          "Enter your email",
+                          controller.ChangeEye(),
+                          controller.email,
+                          Icon(null),
+                          false),
                       InputText(
                           context,
                           "Password",
                           "Enter your password",
                           controller.ChangeEye(),
+                          controller.password,
                           controller.showPass.value
                               ? Icon(Icons.visibility_outlined)
                               : Icon(Icons.visibility_off_outlined),
@@ -87,8 +96,8 @@ class LoginScreenView extends GetView<LoginScreenController> {
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () {
-                            Get.toNamed("/home");
-                            print("GO");
+                            authController.login(controller.email.text,
+                                controller.password.text);
                           },
                         ),
                       ),
@@ -99,46 +108,58 @@ class LoginScreenView extends GetView<LoginScreenController> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            width: lebar * 0.4,
-                            height: tinggi * 0.07,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.white,
-                                border: Border.all(
-                                    width: 2, color: Colors.black45)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Image.asset(
-                                  "assets/image/Facebook.png",
-                                ),
-                                Text(
-                                  "Facebook",
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              ],
+                          InkWell(
+                            onTap: () {
+                              // authController.signInWithFacebook();
+                          },
+                            child: Container(
+                              width: lebar * 0.4,
+                              height: tinggi * 0.07,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      width: 2, color: Colors.black45)),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Image.asset(
+                                    "assets/image/Facebook.png",
+                                  ),
+                                  Text(
+                                    "Facebook",
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          Container(
-                            width: lebar * 0.4,
-                            height: tinggi * 0.07,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.white,
-                                border: Border.all(
-                                    width: 2, color: Colors.black45)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Image.asset(
-                                  "assets/image/Google.png",
-                                ),
-                                Text(
-                                  "Google",
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              ],
+                          InkWell(
+                            onTap: () {
+                              authController.signInWithGoogle();
+                            },
+                            child: Container(
+                              width: lebar * 0.4,
+                              height: tinggi * 0.07,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      width: 2, color: Colors.black45)),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Image.asset(
+                                    "assets/image/Google.png",
+                                  ),
+                                  Text(
+                                    "Google",
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -169,7 +190,7 @@ class LoginScreenView extends GetView<LoginScreenController> {
 }
 
 Widget InputText(BuildContext context, String label, String hint,
-    void controller, Icon icon, final bool) {
+    void controller, final textController, Icon icon, final bool) {
   return Container(
     child: Padding(
       padding: const EdgeInsets.only(bottom: 20.0),
@@ -184,7 +205,7 @@ Widget InputText(BuildContext context, String label, String hint,
             ),
           ),
           TextFormField(
-            // controller: controller,
+            controller: textController,
             obscureText: bool,
             decoration: InputDecoration(
                 label: Text(label),

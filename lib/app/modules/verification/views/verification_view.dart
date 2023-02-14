@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import '../../splashScreen/config/warna.dart';
 import '../controllers/verification_controller.dart';
 
+import 'package:external_app_launcher/external_app_launcher.dart';
+
 class VerificationView extends GetView<VerificationController> {
   const VerificationView({Key? key}) : super(key: key);
   @override
@@ -48,7 +50,7 @@ class VerificationView extends GetView<VerificationController> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
-                      Get.toNamed("/home");
+                      controller.openMail();
                       print("GO");
                     },
                   ),

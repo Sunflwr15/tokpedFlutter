@@ -295,7 +295,7 @@ class DetailScreenView extends GetView<DetailScreenController> {
               divider(lebar, tinggi * 0.01),
               Container(
                 width: lebar,
-                height: tinggi * 0.5,
+                height: tinggi * 0.53,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20.0),
                 child: Column(
                   children: [
@@ -356,7 +356,7 @@ class DetailScreenView extends GetView<DetailScreenController> {
                   ],
                 ),
               ),
-              divider(lebar, tinggi * 0.001),
+              divider(lebar, tinggi * 0.01),
               Container(
                 width: lebar,
                 height: tinggi * 0.58,
@@ -568,7 +568,7 @@ class DetailScreenView extends GetView<DetailScreenController> {
                         ),
                       ),
                       Container(
-                        height: tinggi * 0.12,
+                        height: tinggi * 0.1,
                         padding: EdgeInsets.only(top: 10, left: 30.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -584,7 +584,74 @@ class DetailScreenView extends GetView<DetailScreenController> {
                       )
                     ],
                   )),
-              divider(lebar, tinggi * 0.01)
+              divider(lebar, tinggi * 0.01),
+              Container(
+                padding: EdgeInsets.all(20),
+                width: lebar,
+                height: tinggi * 0.09,
+                child: Wrap(
+                  spacing: 5.0,
+                  alignment: WrapAlignment.start,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    Icon(Icons.info_outline),
+                    Text("Produk Bermasalah?"),
+                    Text("Laporkan", style: TextStyle(color: bgNav))
+                  ],
+                ),
+              ),
+              divider(lebar, tinggi * 0.001),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                width: lebar,
+                height: tinggi * 0.09,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Container(
+                        width: 45,
+                        height: 45,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border:
+                                Border.all(width: 1, color: Colors.black12)),
+                        child: Icon(Icons.message_outlined),
+                      ),
+                      Container(
+                        width: lebar * 0.35,
+                        height: 45,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(width: 1, color: bgNav)),
+                        child: Text(
+                          'Beli Langsung',
+                          style: TextStyle(
+                              color: bgNav,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      Container(
+                        width: lebar * 0.35,
+                        height: 45,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: bgNav),
+                        child: Text(
+                          '+Keranjang',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      )
+                    ]),
+              )
             ],
           ),
         ),

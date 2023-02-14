@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:tokopedia/app/controllers/auth_controller.dart';
 import 'package:tokopedia/app/modules/splashScreen/config/warna.dart';
 
 import '../controllers/forgot_password_controller.dart';
@@ -13,6 +14,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
     double tinggi = MediaQuery.of(context).size.height;
     double lebar = MediaQuery.of(context).size.width;
     final controller = Get.put(ForgotPasswordController());
+    final auth = Get.put(AuthController());
     return Scaffold(
       body: SingleChildScrollView(
           child: Container(
@@ -53,7 +55,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     InputText(context, "Email Address", "Enter your email",
-                        Icon(null), false),
+                        Icon(null), false, controller.email),
                   ],
                 ),
                 Column(
@@ -73,8 +75,8 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () {
-                          Get.toNamed("/verification");
-                          print("GO");
+                          auth.resetPassword(controller.email.toString());
+                          print(controller.email.text);
                         },
                       ),
                     ),
@@ -89,8 +91,8 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
   }
 }
 
-Widget InputText(
-    BuildContext context, String label, String hint, Icon icon, final bool) {
+Widget InputText(BuildContext context, String label, String hint, Icon icon,
+    final bool, final controller) {
   return Container(
     child: Padding(
       padding: const EdgeInsets.only(bottom: 20.0, top: 20),
@@ -105,7 +107,7 @@ Widget InputText(
             ),
           ),
           TextFormField(
-            // controller: controller,
+            controller: controller,
             obscureText: bool,
             decoration: InputDecoration(
                 // label: Text(label),

@@ -11,7 +11,7 @@ Color bgSubJudul = Color(0xFF6B6B6B);
 Color bgDiskon = Color(0xFF01A0C6);
 Color bgDiskon2 = Color(0xFF01AA6C);
 Color bgBintang = Color(0xFFFFC400);
-
+Color bgHeader = Color(0xFDA7FF82);
 Color grad1 = Color(0xFFA92176);
 Color grad1_2 = Color(0xFFFA38B1);
 

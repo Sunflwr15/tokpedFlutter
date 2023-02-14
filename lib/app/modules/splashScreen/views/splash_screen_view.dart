@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tokopedia/app/routes/app_pages.dart';
 
 import '../controllers/splash_screen_controller.dart';
 
@@ -101,6 +102,19 @@ class SplashScreenView extends GetView<SplashScreenController> {
                       child: Text(
                         "Login",
                         style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5.0),
+                      child: InkWell(
+                        onTap: () {
+                          Get.offAllNamed("/register-screen");
+                          print("jalan");
+                        },
+                        child: Text(
+                          "Phone Number",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     )
                   ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:tokopedia/app/controllers/auth_controller.dart';
 import 'package:tokopedia/app/modules/splashScreen/config/warna.dart';
 
 import '../controllers/register_screen_controller.dart';
@@ -13,6 +14,7 @@ class RegisterScreenView extends GetView<RegisterScreenController> {
     double tinggi = MediaQuery.of(context).size.height;
     double lebar = MediaQuery.of(context).size.width;
     final controller = Get.put(RegisterScreenController());
+    final authController = Get.put(AuthController());
     return Obx(() => Scaffold(
           body: SingleChildScrollView(
               child: Container(
@@ -52,8 +54,14 @@ class RegisterScreenView extends GetView<RegisterScreenController> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        InputText(context, "Email Address", "Enter your email",
-                            controller.ChangeEye(), Icon(null), false),
+                        InputText(
+                            context,
+                            "Email Address",
+                            "Enter your email",
+                            controller.ChangeEye(),
+                            controller.emailAddress,
+                            Icon(null),
+                            false),
                         // InputText(context, "Phone Number", "Enter your number",
                         //     controller.ChangeEye(), Icon(null), false),
                         PhoneInput(),
@@ -62,6 +70,7 @@ class RegisterScreenView extends GetView<RegisterScreenController> {
                             "Password",
                             "Enter your password",
                             controller.ChangeEye(),
+                            controller.password,
                             controller.showPass.value
                                 ? Icon(Icons.visibility_outlined)
                                 : Icon(Icons.visibility_off_outlined),
@@ -85,8 +94,9 @@ class RegisterScreenView extends GetView<RegisterScreenController> {
                               style: TextStyle(color: Colors.white),
                             ),
                             onPressed: () {
-                              Get.toNamed("/home");
-                              print("GO");
+                              authController.register(
+                                  controller.emailAddress.text,
+                                  controller.password.text);
                             },
                           ),
                         ),
@@ -97,48 +107,58 @@ class RegisterScreenView extends GetView<RegisterScreenController> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              width: lebar * 0.4,
-                              height: tinggi * 0.07,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: Colors.white,
-                                  border: Border.all(
-                                      width: 2, color: Colors.black45)),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Image.asset(
-                                    "assets/image/Facebook.png",
-                                  ),
-                                  Text(
-                                    "Facebook",
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ],
+                            InkWell(
+                              onTap: () {
+                                // authController.signInWithFacebook();
+                              },
+                              child: Container(
+                                width: lebar * 0.4,
+                                height: tinggi * 0.07,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Colors.white,
+                                    border: Border.all(
+                                        width: 2, color: Colors.black45)),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Image.asset(
+                                      "assets/image/Facebook.png",
+                                    ),
+                                    Text(
+                                      "Facebook",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            Container(
-                              width: lebar * 0.4,
-                              height: tinggi * 0.07,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: Colors.white,
-                                  border: Border.all(
-                                      width: 2, color: Colors.black45)),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Image.asset(
-                                    "assets/image/Google.png",
-                                  ),
-                                  Text(
-                                    "Google",
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ],
+                            InkWell(
+                              onTap: () {
+                                authController.signInWithGoogle();
+                              },
+                              child: Container(
+                                width: lebar * 0.4,
+                                height: tinggi * 0.07,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Colors.white,
+                                    border: Border.all(
+                                        width: 2, color: Colors.black45)),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Image.asset(
+                                      "assets/image/Google.png",
+                                    ),
+                                    Text(
+                                      "Google",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -251,7 +271,7 @@ Widget PhoneInput() {
 }
 
 Widget InputText(BuildContext context, String label, String hint,
-    void controller, Icon icon, final bool) {
+    void controllerIcon, final controller, Icon icon, final bool) {
   return Container(
     child: Padding(
       padding: const EdgeInsets.only(bottom: 20.0, top: 20),
@@ -266,12 +286,13 @@ Widget InputText(BuildContext context, String label, String hint,
             ),
           ),
           TextFormField(
-            // controller: controller,
+            controller: controller,
             obscureText: bool,
             decoration: InputDecoration(
                 label: Text(label),
                 hintText: hint,
-                suffixIcon: IconButton(onPressed: () => controller, icon: icon),
+                suffixIcon:
+                    IconButton(onPressed: () => controllerIcon, icon: icon),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide(width: 3, color: Colors.black45))),

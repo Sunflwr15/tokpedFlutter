@@ -7,6 +7,7 @@ class LoginScreenController extends GetxController {
   final count = 0.obs;
   final showPass = false.obs;
   ChangeEye() => showPass.toggle();
+  TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   @override
   void onInit() {
