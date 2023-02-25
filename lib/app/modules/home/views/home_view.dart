@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:tokopedia/app/controllers/auth_controller.dart';
 import 'package:tokopedia/app/modules/splashScreen/config/warna.dart';
 
+import '../../../controllers/slider_controller.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -14,6 +16,7 @@ class HomeView extends GetView<HomeController> {
     double tinggi = MediaQuery.of(context).size.height;
     double lebar = MediaQuery.of(context).size.width;
     final logController = Get.put(AuthController());
+    final sliderC = Get.put(SliderController());
     return Scaffold(
         body: SingleChildScrollView(
       scrollDirection: Axis.vertical,
@@ -68,30 +71,45 @@ class HomeView extends GetView<HomeController> {
             ],
           ),
         ),
-        CarouselSlider(
-          options: CarouselOptions(
-              height: tinggi * 0.18, autoPlay: true, pageSnapping: true),
-          items: [
-            "assets/image/cr1.png",
-            "assets/image/cr2.png",
-            "assets/image/cr3.png",
-          ].map((i) {
-            return Builder(
-              builder: (BuildContext context) {
+        FutureBuilder<QuerySnapshot<Object?>>(
+            future: sliderC.getData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                var listData = snapshot.data!.docs;
+                // return Text(listData.toString());
                 return Container(
-                  height: tinggi,
                   width: lebar,
-                  margin: EdgeInsets.symmetric(horizontal: 5.0),
-                  decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(15),
-                      image: DecorationImage(
-                          image: AssetImage(i), fit: BoxFit.contain)),
+                  height: tinggi * 0.15,
+                  child: CarouselSlider(
+                    options: CarouselOptions(
+                        height: tinggi * 0.12,
+                        autoPlay: true,
+                        pageSnapping: true),
+                    items: listData.map((i) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                            height: tinggi,
+                            width: lebar,
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(15),
+                                image: DecorationImage(
+                                    image: NetworkImage((i.data() as Map<String,
+                                            dynamic>)["image_slider"]
+                                        .toString()),
+                                    fit: BoxFit.cover)),
+                          );
+                        },
+                      );
+                    }).toList(),
+                  ),
                 );
-              },
-            );
-          }).toList(),
-        ),
+              } else {
+                return SizedBox(height: tinggi * 0.15);
+              }
+            }),
         Container(
             padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
             child: Column(

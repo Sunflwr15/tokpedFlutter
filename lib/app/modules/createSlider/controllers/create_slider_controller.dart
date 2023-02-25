@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../controllers/slider_controller.dart';
 
 class CreateSliderController extends GetxController {
   //TODO: Implement CreateSliderController
@@ -11,6 +12,12 @@ class CreateSliderController extends GetxController {
   TextEditingController gambarSlider = TextEditingController();
   TextEditingController deskripsiSlider = TextEditingController();
   @override
+  uploadGambar() async {
+    String data = await SliderController().addPhoto();
+    gambarSlider.text = data;
+    print("Isi dari data ${data}");
+  }
+
   void onInit() {
     super.onInit();
   }

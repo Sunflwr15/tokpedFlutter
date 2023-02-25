@@ -68,7 +68,7 @@ class HomeAdminView extends GetView<HomeAdminController> {
                       width: 50,
                     ),
                     InkWell(
-                      onTap: () => Get.toNamed(Routes.SLIDER_DATA),
+                      onTap: () => Get.toNamed(Routes.PRODUCT_DATA),
                       child: Container(
                         // width: 65,
                         child: Column(

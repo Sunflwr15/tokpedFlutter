@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/DetailScreen/bindings/detail_screen_binding.dart';
 import '../modules/DetailScreen/views/detail_screen_view.dart';
+import '../modules/createProduct/bindings/create_product_binding.dart';
+import '../modules/createProduct/views/create_product_view.dart';
 import '../modules/createSlider/bindings/create_slider_binding.dart';
 import '../modules/createSlider/views/create_slider_view.dart';
 import '../modules/forgotPassword/bindings/forgot_password_binding.dart';
@@ -16,12 +18,16 @@ import '../modules/otp/bindings/otp_binding.dart';
 import '../modules/otp/views/otp_view.dart';
 import '../modules/phoneScreen/bindings/phone_screen_binding.dart';
 import '../modules/phoneScreen/views/phone_screen_view.dart';
+import '../modules/productData/bindings/product_data_binding.dart';
+import '../modules/productData/views/product_data_view.dart';
 import '../modules/registerScreen/bindings/register_screen_binding.dart';
 import '../modules/registerScreen/views/register_screen_view.dart';
 import '../modules/sliderData/bindings/slider_data_binding.dart';
 import '../modules/sliderData/views/slider_data_view.dart';
 import '../modules/splashScreen/bindings/splash_screen_binding.dart';
 import '../modules/splashScreen/views/splash_screen_view.dart';
+import '../modules/updateProduct/bindings/update_product_binding.dart';
+import '../modules/updateProduct/views/update_product_view.dart';
 import '../modules/updateSlider/bindings/update_slider_binding.dart';
 import '../modules/updateSlider/views/update_slider_view.dart';
 import '../modules/verification/bindings/verification_binding.dart';
@@ -99,6 +105,21 @@ class AppPages {
       name: _Paths.UPDATE_SLIDER,
       page: () => UpdateSliderView(),
       binding: UpdateSliderBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRODUCT_DATA,
+      page: () => ProductDataView(),
+      binding: ProductDataBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATE_PRODUCT,
+      page: () => const CreateProductView(),
+      binding: CreateProductBinding(),
+    ),
+    GetPage(
+      name: _Paths.UPDATE_PRODUCT,
+      page: () => const UpdateProductView(),
+      binding: UpdateProductBinding(),
     ),
   ];
 }

@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_overrides, unused_import, avoid_print, prefer_const_constructors, unused_local_variable, unused_catch_clause, non_constant_identifier_names
 
+// import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,27 +9,50 @@ import 'package:get/get.dart';
 import 'package:tokopedia/app/routes/app_pages.dart';
 import 'package:file_picker/file_picker.dart';
 
-class SliderController extends GetxController {
+class ProductController extends GetxController {
   String url = "";
   File? path;
   FirebaseStorage storage = FirebaseStorage.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  addData(bool aktifSlider, String deskSlider, String gambarSlider) async {
-    CollectionReference slider = firestore.collection('slider');
+  addData(
+    String store,
+    String title,
+    String image,
+    String description,
+    int price,
+    int discount,
+    String address,
+    int rate,
+    int stock,
+    int sold,
+    bool status,
+  ) async {
+    CollectionReference product = firestore.collection('product');
 
-    final sliderData = {
-      "active_slider": aktifSlider,
-      "deskripsi_slider": deskSlider,
-      "gambar_slider": gambarSlider
+    final productData = {
+      // "active_product": aktifproduct,
+      // "deskripsi_product": deskproduct,
+      // "gambar_product": gambarproduct
+      "store": store,
+      "title": title,
+      "image": image,
+      "description": description,
+      "price": price,
+      "discount": discount,
+      "address": address,
+      "rate": rate,
+      "stock": stock,
+      "sold": sold,
+      "status": status
     };
 
 // Add a new document with a generated ID
     try {
-      await slider.add(sliderData).then((DocumentReference doc) {
+      await product.add(productData).then((DocumentReference doc) {
         print('DocumentSnapshot added with ID: ${doc.id}');
         Get.defaultDialog(title: 'Alert', middleText: 'berhasil menambah data');
-        Get.offNamed(Routes.SLIDER_DATA);
+        Get.offNamed(Routes.PRODUCT_DATA);
       });
     } catch (e) {
       Get.defaultDialog(title: 'Alert', middleText: 'gagal menambah data');
@@ -36,25 +60,45 @@ class SliderController extends GetxController {
   }
 
   Future<QuerySnapshot<Object?>> getData() async {
-    CollectionReference slider = firestore.collection('slider');
+    CollectionReference produk = firestore.collection('product');
 
-    return await slider.get();
+    return await produk.get();
   }
 
-  updateData(String id, bool activeSlider, String deskSlider,
-      String gambarSlider) async {
+  updateData(
+    String id,
+    String store,
+    String title,
+    String image,
+    String description,
+    int price,
+    int discount,
+    String address,
+    int rate,
+    int stock,
+    int sold,
+    bool status,
+  ) async {
     try {
-      final sliderData = {
-        "active_slider": activeSlider,
-        "deskripsi_slider": deskSlider,
-        "gambar_slider": gambarSlider
+      final productData = {
+        "store": store,
+        "title": title,
+        "image": image,
+        "description": description,
+        "price": price,
+        "discount": discount,
+        "address": address,
+        "rate": rate,
+        "stock": stock,
+        "sold": sold,
+        "status": status
       };
 
-      DocumentReference Slider = firestore.collection('slider').doc(id);
-      await Slider.update(sliderData);
+      DocumentReference Product = firestore.collection('product').doc(id);
+      await Product.update(productData);
 
       Get.defaultDialog(title: 'Alert', middleText: 'berhasil menupdate data');
-      // Get.offNamed(Routes.SLIDER_DATA);
+      // Get.offNamed(Routes.product_DATA);
     } catch (e) {
       Get.defaultDialog(title: 'Alert', middleText: 'gagal menupdate data');
       print(e);
@@ -63,10 +107,10 @@ class SliderController extends GetxController {
 
   deleteData(String id) async {
     try {
-      DocumentReference Slider = firestore.collection('slider').doc(id);
-      await Slider.delete();
+      DocumentReference product = firestore.collection('product').doc(id);
+      await product.delete();
       Get.defaultDialog(title: 'Alert', middleText: 'berhasil mendelete data');
-      return Get.offAllNamed(Routes.SLIDER_DATA);
+      return Get.offAllNamed(Routes.PRODUCT_DATA);
     } catch (e) {
       Get.defaultDialog(title: 'Alert', middleText: 'gagal mendelete data');
       print(e);

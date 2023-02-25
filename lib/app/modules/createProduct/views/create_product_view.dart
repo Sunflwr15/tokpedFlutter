@@ -1,18 +1,21 @@
+// import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tokopedia/app/controllers/product_controller.dart';
 
-import '../../../controllers/slider_controller.dart';
 import '../../splashScreen/config/warna.dart';
-import '../controllers/create_slider_controller.dart';
+import '../controllers/create_product_controller.dart';
 
-class CreateSliderView extends GetView<CreateSliderController> {
-  final controller = Get.put(CreateSliderController());
-  final sliderC = Get.put(SliderController());
+class CreateProductView extends GetView<CreateProductController> {
+  const CreateProductView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     double tinggi = MediaQuery.of(context).size.height;
     double lebar = MediaQuery.of(context).size.width;
+    final controller = CreateProductController();
+    final productC = ProductController();
     return Obx(() => SafeArea(
             child: Scaffold(
                 body: SingleChildScrollView(
@@ -44,24 +47,75 @@ class CreateSliderView extends GetView<CreateSliderController> {
                     padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
                     child: Column(
                       children: [
-                        ElevatedButton(
-                            onPressed: () {
-                              controller.uploadGambar();
-                            },
-                            child: Text("Upload Photo")),
+                        // ElevatedButton(
+                        //     onPressed: () {
+                        //       controller.uploadGambar();
+                        //     },
+                        //     child: Text("Upload Photo")),
                         CustomInput(
-                            controller: controller.gambarSlider,
-                            label: 'Link gambar Slider',
-                            hint: 'Masukkan gambar',
+                            controller: controller.image,
+                            label: 'Image',
+                            hint: 'Insert Image',
                             obscure: false),
                         SizedBox(
                           height: 20,
                         ),
                         CustomInput(
-                            controller: controller.deskripsiSlider,
-                            label: 'Deskripsi Slider',
-                            hint: 'Masukkan deskripsi',
+                            controller: controller.title,
+                            label: 'Title',
+                            hint: 'Insert Title',
                             obscure: false),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        CustomInput(
+                            controller: controller.price,
+                            label: 'Price',
+                            hint: 'Insert Price',
+                            obscure: false),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        CustomInput(
+                            controller: controller.description,
+                            label: 'Description',
+                            hint: 'Insert Description',
+                            obscure: false),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        CustomInput(
+                            controller: controller.adress,
+                            label: 'Address',
+                            hint: 'Insert Address',
+                            obscure: false),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        CustomInput(
+                            controller: controller.stock,
+                            label: 'Stock',
+                            hint: 'Insert Stock',
+                            obscure: false),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        CustomInput(
+                            controller: controller.store,
+                            label: 'Store Name',
+                            hint: 'Insert Stock',
+                            obscure: false),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        CustomInput(
+                            controller: controller.discount,
+                            label: 'Add Discount',
+                            hint: 'Insert Discount',
+                            obscure: false),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -76,16 +130,18 @@ class CreateSliderView extends GetView<CreateSliderController> {
                                         fontWeight: FontWeight.w500),
                                   ),
                                   Switch(
-                                      value: controller.aktifasi.value,
+                                      value: controller.status.value,
                                       onChanged: (value) =>
                                           controller.changeActivation()),
                                 ],
                               ),
                               Text(
-                                controller.aktifasi.value.toString(),
+                                controller.status.value
+                                    ? "Merchant"
+                                    : "Official Store",
                                 style: TextStyle(
                                     fontSize: 16,
-                                    color: controller.aktifasi.value
+                                    color: controller.status.value
                                         ? bgHeader
                                         : Colors.red,
                                     fontWeight: FontWeight.w500),
@@ -100,10 +156,20 @@ class CreateSliderView extends GetView<CreateSliderController> {
                   margin: EdgeInsets.only(top: 40),
                   child: InkWell(
                     onTap: () {
-                      sliderC.addData(
-                          controller.aktifasi.value,
-                          controller.deskripsiSlider.text,
-                          controller.gambarSlider.text);
+                      productC.addData(
+                          controller.store.text,
+                          controller.title.text,
+                          controller.image.text,
+                          controller.description.text,
+                          int.parse(controller.price.text),
+                          int.parse(controller.discount.text),
+                          controller.adress.text,
+                          // int.parse(controller.rate.text),
+                          controller.rate,
+                          int.parse(controller.stock.text),
+                          // int.parse(controller.sold),
+                          controller.sold,
+                          controller.status.value);
                     },
                     child: Container(
                       width: lebar,

@@ -47,10 +47,10 @@ class SliderDataView extends GetView<SliderDataController> {
                                     : Colors.red,
                                 fontWeight: FontWeight.w500),
                           ),
-                          // leading: Container(
-                          //   child: Image.network((listData[index].data()
-                          //       as Map<String, dynamic>)['gambar_slider']),
-                          // ),
+                          leading: Container(
+                            child: Image.network((listData[index].data()
+                                as Map<String, dynamic>)['image_slider']),
+                          ),
                           trailing: IconButton(
                             onPressed: () {
                               sliderC.deleteData((listData[index].id));
