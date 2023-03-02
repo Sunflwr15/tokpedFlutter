@@ -110,7 +110,7 @@ class LoginScreenView extends GetView<LoginScreenController> {
                         children: [
                           InkWell(
                             onTap: () {
-                              // authController.signInWithFacebook();
+                              authController.signInWithFacebook();
                           },
                             child: Container(
                               width: lebar * 0.4,

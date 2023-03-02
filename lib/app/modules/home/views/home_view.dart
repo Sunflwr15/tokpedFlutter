@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:tokopedia/app/controllers/auth_controller.dart';
 import 'package:tokopedia/app/modules/splashScreen/config/warna.dart';
 
+import '../../../controllers/product_controller.dart';
 import '../../../controllers/slider_controller.dart';
 import '../controllers/home_controller.dart';
 
@@ -17,6 +18,7 @@ class HomeView extends GetView<HomeController> {
     double lebar = MediaQuery.of(context).size.width;
     final logController = Get.put(AuthController());
     final sliderC = Get.put(SliderController());
+    final productC = Get.put(ProductController());
     return Scaffold(
         body: SingleChildScrollView(
       scrollDirection: Axis.vertical,
@@ -200,7 +202,7 @@ class HomeView extends GetView<HomeController> {
             )),
         Container(
             width: lebar,
-            height: tinggi * 0.4,
+            height: tinggi * 0.35,
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.topCenter,
@@ -209,20 +211,46 @@ class HomeView extends GetView<HomeController> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(
-                  "assets/image/diskon.png",
-                  fit: BoxFit.cover,
-                  // scale: 1.15,
-                ),
+                // Image.asset(
+                //   "assets/image/diskon.png",
+                //   fit: BoxFit.cover,
+                //   // scale: 1.15,
+                // ),
                 Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: diskonCard(
-                        lebar * 0.37,
-                        tinggi * 0.38,
-                        "assets/image/diskonproduk1.png",
-                        "Rp. 40.000",
-                        "Rp. 70.000",
-                        "Kota Bandung"))
+                    height: tinggi,
+                    width: lebar * 0.3,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage(
+                              "assets/image/diskon.png",
+                            ),
+                            fit: BoxFit.cover))),
+                FutureBuilder<QuerySnapshot<Object?>>(
+                  future: productC.getDataDiskon(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      var listData = snapshot.data!.docs;
+                      return Container(
+                          width: lebar * 0.7,
+                          padding: EdgeInsets.all(10.0),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Wrap(
+                                spacing: 5,
+                                children: List.generate(
+                                    listData.length,
+                                    (index) => diskonCard(
+                                        lebar * 0.37,
+                                        tinggi * 0.33,
+                                        listData[index],
+                                        productC))),
+                          ));
+                    } else {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    ;
+                  },
+                )
               ],
             )),
         Padding(
@@ -509,8 +537,18 @@ Widget productCard(
   );
 }
 
-Widget diskonCard(final width, final height, String image, String harga,
-    String hargaAwal, String Lokasi) {
+Widget diskonCard(final width, final height, final data, final function) {
+  int discount =
+      int.parse((data.data() as Map<String, dynamic>)['discount'].toString());
+  String title = (data.data() as Map<String, dynamic>)['title'].toString();
+  String image = (data.data() as Map<String, dynamic>)['image'].toString();
+  int price =
+      int.parse((data.data() as Map<String, dynamic>)['price'].toString());
+  String address = (data.data() as Map<String, dynamic>)['address'].toString();
+  String rate = (data.data() as Map<String, dynamic>)['rate'].toString();
+  String sold = (data.data() as Map<String, dynamic>)['sold'].toString();
+  double ds = discount / 100 * price;
+  double realPrice = price - ds;
   return Container(
     width: width,
     height: height,
@@ -519,19 +557,23 @@ Widget diskonCard(final width, final height, String image, String harga,
       borderRadius: BorderRadius.circular(10.0),
     ),
     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Image.asset(
-        image,
-        // height: height / 1,
-        width: width,
-      ),
       Container(
-          height: height * 0.4,
+          width: width,
+          height: height * 0.6,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+              image: DecorationImage(
+                  image: NetworkImage(image), fit: BoxFit.cover))),
+      Container(
+          height: height * 0.3,
           padding: EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(harga, style: TextStyle(fontWeight: FontWeight.bold)),
+              Text("Rp. ${realPrice}00",
+                  style: TextStyle(fontWeight: FontWeight.bold)),
               Row(
                 children: [
                   Container(
@@ -540,7 +582,7 @@ Widget diskonCard(final width, final height, String image, String harga,
                     decoration: BoxDecoration(
                         color: bgHarga, borderRadius: BorderRadius.circular(2)),
                     child: Text(
-                      "16%",
+                      "${discount}%",
                       style: TextStyle(
                           fontSize: 10,
                           color: bgJam,
@@ -548,7 +590,7 @@ Widget diskonCard(final width, final height, String image, String harga,
                     ),
                   ),
                   Text(
-                    hargaAwal,
+                    "Rp. ${price}.000",
                     style: TextStyle(
                         fontSize: 10, decoration: TextDecoration.lineThrough),
                   )
@@ -559,7 +601,7 @@ Widget diskonCard(final width, final height, String image, String harga,
                   "assets/image/official.png",
                   scale: 2,
                 ),
-                Text(Lokasi,
+                Text(address,
                     style: TextStyle(
                       fontSize: 10,
                     )),

@@ -135,4 +135,28 @@ class ProductController extends GetxController {
       print("Tidak mengirim file!");
     }
   }
+
+  filterData() async {
+    print("TES");
+    final result = await firestore
+        .collection("product")
+        .where("flashSale", isEqualTo: true)
+        // .orderBy("price", descending: false,)
+        .get();
+    print("======");
+    print(result.docs.length);
+    print("======");
+    if (result.docs.length > 0) {
+      result.docs.forEach((element) {
+        print(element.data());
+      });
+    } else {
+      print("Tidak ada data");
+    }
+  }
+
+  Future<QuerySnapshot<Object?>> getDataDiskon() async {
+    CollectionReference produk = firestore.collection('product');
+    return await produk.where("flashSale", isEqualTo: true).get();
+  }
 }

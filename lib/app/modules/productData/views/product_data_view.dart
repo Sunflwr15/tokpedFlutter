@@ -13,7 +13,8 @@ import '../controllers/product_data_controller.dart';
 
 class ProductDataView extends GetView<ProductDataController> {
   // const ProductDataView({Key? key}) : super(key: key);
-  final productC = ProductController();
+  final productC = Get.put(ProductController());
+  final homeC = Get.put(ProductDataController());
   @override
   Widget build(BuildContext context) {
     double tinggi = MediaQuery.of(context).size.height;
