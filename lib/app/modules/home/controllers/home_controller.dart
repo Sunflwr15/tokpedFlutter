@@ -4,6 +4,8 @@ class HomeController extends GetxController {
   //TODO: Implement HomeController
 
   final count = 0.obs;
+  final data = Get.arguments;
+  
   @override
   void onInit() {
     super.onInit();

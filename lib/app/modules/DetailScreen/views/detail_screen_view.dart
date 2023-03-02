@@ -11,6 +11,21 @@ class DetailScreenView extends GetView<DetailScreenController> {
   Widget build(BuildContext context) {
     double tinggi = MediaQuery.of(context).size.height;
     double lebar = MediaQuery.of(context).size.width;
+    final data = Get.arguments;
+    int discount =
+        int.parse((data.data() as Map<String, dynamic>)['discount'].toString());
+    String title = (data.data() as Map<String, dynamic>)['title'].toString();
+    String image = (data.data() as Map<String, dynamic>)['image'].toString();
+    int price =
+        int.parse((data.data() as Map<String, dynamic>)['price'].toString());
+    String address =
+        (data.data() as Map<String, dynamic>)['address'].toString();
+    String store = (data.data() as Map<String, dynamic>)['store'].toString();
+    String detail = (data.data() as Map<String, dynamic>)['detail'].toString();
+
+    String rate = (data.data() as Map<String, dynamic>)['rate'].toString();
+    String sold = (data.data() as Map<String, dynamic>)['sold'].toString();
+
     return Scaffold(
       body: Container(
         width: lebar,
@@ -70,7 +85,13 @@ class DetailScreenView extends GetView<DetailScreenController> {
               Container(
                   child: Column(
                 children: [
-                  Image.asset("assets/image/detail_minyak_wangi.png"),
+                  // Image.network(image),
+                  Container(
+                      width: lebar,
+                      height: tinggi * 0.4,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(image), fit: BoxFit.cover))),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
@@ -80,7 +101,7 @@ class DetailScreenView extends GetView<DetailScreenController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Rp370.000",
+                              "Rp${price}.000",
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
@@ -90,7 +111,7 @@ class DetailScreenView extends GetView<DetailScreenController> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 20.0),
                           child: Text(
-                            "Mine. Perfumery ETHEREAL - 50ml Eau De Parfum",
+                            title,
                             style: TextStyle(fontSize: 17),
                           ),
                         ),
@@ -104,7 +125,7 @@ class DetailScreenView extends GetView<DetailScreenController> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(right: 10.0),
-                                child: Text("Terjual 250+"),
+                                child: Text("Terjual ${sold}+"),
                               ),
                               Container(
                                 width: lebar * 0.26,
@@ -119,7 +140,7 @@ class DetailScreenView extends GetView<DetailScreenController> {
                                   children: [
                                     Icon(Icons.star,
                                         color: bgBintang, size: 14),
-                                    Text("4.9 (320)"),
+                                    Text("${rate} (320)"),
                                   ],
                                 ),
                               ),
@@ -189,7 +210,7 @@ class DetailScreenView extends GetView<DetailScreenController> {
                             style:
                                 TextStyle(fontSize: 14, color: Colors.black45),
                           ),
-                          Text("Mine Private Collection",
+                          Text(store,
                               style: TextStyle(
                                   color: bgNav, fontWeight: FontWeight.bold))
                         ],
@@ -214,8 +235,7 @@ class DetailScreenView extends GetView<DetailScreenController> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 17),
                       ),
-                      Text(
-                          "Mine. ETHEREAL Eau De Parfum 50mi glass perfume bottle in hard box packaging • ETHEREAL • With facets that highlight a side ..."),
+                      Text(detail),
                       Text("Baca Selengkapnya",
                           style: TextStyle(
                               color: bgNav, fontWeight: FontWeight.bold))
@@ -241,7 +261,7 @@ class DetailScreenView extends GetView<DetailScreenController> {
                                 Image.asset('assets/image/official.png',
                                     width: 18),
                                 Text(
-                                  ' Mine. Parfumery',
+                                  store,
                                   style: TextStyle(
                                       color: bgJudul,
                                       fontWeight: FontWeight.w600,
@@ -269,7 +289,7 @@ class DetailScreenView extends GetView<DetailScreenController> {
                             SizedBox(
                               height: tinggi * 0.006,
                             ),
-                            Text('Kota Tangerang'),
+                            Text(address),
                           ],
                         ),
                       ],
@@ -431,8 +451,9 @@ class DetailScreenView extends GetView<DetailScreenController> {
                                     direction: Axis.horizontal,
                                     spacing: 20,
                                     children: [
-                                      Image.asset(
-                                          "assets/image/profilePic1.png"),
+                                      // Image.asset(
+                                      //     // "assets/image/profilePic1.png"),
+                                      //     ""),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -516,7 +537,7 @@ class DetailScreenView extends GetView<DetailScreenController> {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           spacing: 10,
                           children: [
-                            Image.asset("assets/image/profilePic2.png"),
+                            // Image.asset(""),
                             Text("Rayna Stanton",
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             Text(" ∙ Apr 2022",
@@ -546,7 +567,7 @@ class DetailScreenView extends GetView<DetailScreenController> {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           spacing: 10,
                           children: [
-                            Image.asset("assets/image/profilePic3.png"),
+                            // Image.asset(""),
                             Container(
                               margin: EdgeInsets.only(right: 5.0),
                               padding: EdgeInsets.all(5.0),

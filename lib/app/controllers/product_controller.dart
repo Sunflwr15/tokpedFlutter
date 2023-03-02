@@ -154,9 +154,13 @@ class ProductController extends GetxController {
       print("Tidak ada data");
     }
   }
-
+  
   Future<QuerySnapshot<Object?>> getDataDiskon() async {
     CollectionReference produk = firestore.collection('product');
     return await produk.where("flashSale", isEqualTo: true).get();
+  }
+  Future<QuerySnapshot<Object?>> getLimaData() async {
+    CollectionReference produk = firestore.collection('product');
+    return await produk.where("rate", isGreaterThanOrEqualTo: 3).get();
   }
 }

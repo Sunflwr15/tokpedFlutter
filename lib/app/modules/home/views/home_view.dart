@@ -294,47 +294,38 @@ class HomeView extends GetView<HomeController> {
               Text("Lihat Semua", style: TextStyle(color: bgNav)),
             ]),
             SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Wrap(
-                    alignment: WrapAlignment.spaceBetween,
-                    spacing: 10,
-                    direction: Axis.horizontal,
-                    children: [
-                      productCard(
-                          lebar * 0.37,
-                          tinggi * 0.44,
-                          "assets/image/produkPilihan1.png",
-                          "Logitech G603 Lightspeed ...",
-                          "Rp. 200.000",
-                          "Rp. 250.000",
-                          "Kab. Tangerang",
-                          "4.8",
-                          "68"),
-                      productCard(
-                          lebar * 0.37,
-                          tinggi * 0.44,
-                          "assets/image/produkPilihan2.png",
-                          "Logitech G603 Lightspeed ...",
-                          "Rp. 200.000",
-                          "Rp. 250.000",
-                          "Kab. Tangerang",
-                          "4.8",
-                          "68"),
-                      productCard(
-                          lebar * 0.37,
-                          tinggi * 0.44,
-                          "assets/image/produkPilihan3.png",
-                          "Logitech G603 Lightspeed ...",
-                          "Rp. 200.000",
-                          "Rp. 250.000",
-                          "Kab. Tangerang",
-                          "4.8",
-                          "68"),
-                    ]),
-              ),
-            )
+                scrollDirection: Axis.horizontal,
+                child: FutureBuilder<QuerySnapshot<Object?>>(
+                    future: productC.getLimaData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        var listData = snapshot.data!.docs;
+
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Wrap(
+                              alignment: WrapAlignment.spaceBetween,
+                              spacing: 10,
+                              runSpacing: 10,
+                              direction: Axis.horizontal,
+                              children: List.generate(
+                                  listData.length,
+                                  (index) => InkWell(
+                                        onTap: () {
+                                          Get.toNamed("/detail-screen",
+                                              arguments: listData[index]);
+                                        },
+                                        child: productCard(
+                                            lebar * 0.39,
+                                            tinggi * 0.33,
+                                            listData[index],
+                                            productC),
+                                      ))),
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    }))
           ]),
         ),
         Container(
@@ -355,55 +346,40 @@ class HomeView extends GetView<HomeController> {
                     ],
                   )),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Wrap(
-                    alignment: WrapAlignment.spaceBetween,
-                    runAlignment: WrapAlignment.spaceBetween,
-                    runSpacing: 12,
-                    spacing: 12,
-                    children: [
-                      productCard(
-                          lebar * 0.43,
-                          tinggi * 0.47,
-                          "assets/image/produk1.png",
-                          "Monitor Lenovo G34W-30 34 ...",
-                          "Rp. 30.000",
-                          "Rp. 600.000",
-                          "Cibedug",
-                          "5.0",
-                          "100"),
-                      productCard(
-                          lebar * 0.43,
-                          tinggi * 0.47,
-                          "assets/image/produk2.png",
-                          "Myvo Steker T Multi Lampu Colokan ...",
-                          "Rp. 30.000",
-                          "Rp. 600.000",
-                          "Cibedug",
-                          "5.0",
-                          "100"),
-                      productCard(
-                          lebar * 0.43,
-                          tinggi * 0.47,
-                          "assets/image/produk3.png",
-                          "Logitech G PRO X SUPERLIGHT ...",
-                          "Rp. 30.000",
-                          "Rp. 600.000",
-                          "Cibedug",
-                          "5.0",
-                          "100"),
-                      productCard(
-                          lebar * 0.43,
-                          tinggi * 0.47,
-                          "assets/image/produk4.png",
-                          "SteelSeries Rival 3 Wireless - Gaming ...",
-                          "Rp. 30.000",
-                          "Rp. 600.000",
-                          "Cibedug",
-                          "5.0",
-                          "100"),
-                    ]),
-              ),
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: FutureBuilder<QuerySnapshot<Object?>>(
+                      future: productC.getLimaData(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          var listData = snapshot.data!.docs;
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0),
+                            child: Container(
+                              width: lebar,
+                              child: Wrap(
+                                  alignment: WrapAlignment.spaceBetween,
+                                  spacing: 10,
+                                  runSpacing: 30,
+                                  direction: Axis.horizontal,
+                                  children: List.generate(
+                                      listData.length,
+                                      (index) => InkWell(
+                                            onTap: () {
+                                              Get.toNamed("/detail-screen",
+                                                  arguments: listData[index]);
+                                            },
+                                            child: productCard(
+                                                lebar * 0.43,
+                                                tinggi * 0.4,
+                                                listData[index],
+                                                productC),
+                                          ))),
+                            ),
+                          );
+                        } else {
+                          return CircularProgressIndicator();
+                        }
+                      })),
               Container(
                 width: lebar,
                 height: tinggi * 0.09,
@@ -442,16 +418,18 @@ Widget Kategori(Color color1, Color color2, String text) {
   );
 }
 
-Widget productCard(
-    final width,
-    final height,
-    String image,
-    String judul,
-    String harga,
-    String hargaAwal,
-    String Lokasi,
-    String rate,
-    String terjual) {
+Widget productCard(final width, final height, final data, final function) {
+  int discount =
+      int.parse((data.data() as Map<String, dynamic>)['discount'].toString());
+  String title = (data.data() as Map<String, dynamic>)['title'].toString();
+  String image = (data.data() as Map<String, dynamic>)['image'].toString();
+  int price =
+      int.parse((data.data() as Map<String, dynamic>)['price'].toString());
+  String address = (data.data() as Map<String, dynamic>)['address'].toString();
+  String rate = (data.data() as Map<String, dynamic>)['rate'].toString();
+  String sold = (data.data() as Map<String, dynamic>)['sold'].toString();
+  double ds = discount / 100 * price;
+  double realPrice = price - ds;
   return Container(
     width: width,
     height: height,
@@ -467,20 +445,24 @@ Widget productCard(
       ],
     ),
     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Image.asset(
-        image,
-        // height: height / 1,
-        width: width,
-      ),
       Container(
-          height: height * 0.48,
+          width: width,
+          height: height * 0.6,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+              image: DecorationImage(
+                  image: NetworkImage(image), fit: BoxFit.cover))),
+      Container(
+          height: height * 0.4,
           padding: EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(judul, style: TextStyle(fontWeight: FontWeight.normal)),
-              Text(harga, style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(title, style: TextStyle(fontWeight: FontWeight.normal)),
+              Text("${realPrice}00",
+                  style: TextStyle(fontWeight: FontWeight.bold)),
               Row(
                 children: [
                   Container(
@@ -489,7 +471,7 @@ Widget productCard(
                     decoration: BoxDecoration(
                         color: bgHarga, borderRadius: BorderRadius.circular(2)),
                     child: Text(
-                      "16%",
+                      "${discount}%",
                       style: TextStyle(
                           fontSize: 10,
                           color: bgJam,
@@ -497,7 +479,7 @@ Widget productCard(
                     ),
                   ),
                   Text(
-                    hargaAwal,
+                    "${price}.000",
                     style: TextStyle(
                         fontSize: 10, decoration: TextDecoration.lineThrough),
                   )
@@ -508,7 +490,7 @@ Widget productCard(
                   "assets/image/power_merchant_badge.png",
                   scale: 1,
                 ),
-                Text(Lokasi,
+                Text(address,
                     style: TextStyle(
                       fontSize: 10,
                     )),
@@ -525,7 +507,7 @@ Widget productCard(
                         fontSize: 10,
                       )),
                   Text("|"),
-                  Text("${terjual} Terjual",
+                  Text("${sold} Terjual",
                       style: TextStyle(
                         fontSize: 10,
                       )),
